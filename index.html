@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1565c0">
+  <title>Peugleh Shiner — Jasa Kebersihan Praktis</title>
+  <style>
+    :root {
+      --blue: #1565c0;
+      --blue-dark: #0d47a1;
+      --blue-light: #eaf3ff;
+      --ink: #172b4d;
+      --muted: #64748b;
+      --line: #e5edf6;
+      --white: #fff;
+      --green: #16a34a;
+      --shadow: 0 12px 35px rgba(21, 101, 192, .10);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(66,165,245,.13) 0 2px, transparent 3px),
+        radial-gradient(circle at 92% 28%, rgba(21,101,192,.10) 0 3px, transparent 4px),
+        radial-gradient(circle at 78% 82%, rgba(66,165,245,.12) 0 2px, transparent 3px),
+        linear-gradient(135deg, #f8fcff 0%, #edf6ff 48%, #f7fbff 100%);
+      background-size: 42px 42px, 58px 58px, 50px 50px, auto;
+      background-attachment: fixed;
+      line-height: 1.6;
+    }
+    .cleaning-atmosphere {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden;
+      background:
+        radial-gradient(circle at 14% 34%, transparent 0 34px, rgba(66,165,245,.10) 35px 37px, transparent 38px),
+        radial-gradient(circle at 88% 68%, transparent 0 52px, rgba(66,165,245,.09) 53px 55px, transparent 56px),
+        radial-gradient(circle at 72% 12%, rgba(255,255,255,.9) 0 5px, transparent 6px),
+        radial-gradient(circle at 28% 78%, rgba(255,255,255,.95) 0 4px, transparent 5px);
+    }
+    .cleaning-atmosphere::before, .cleaning-atmosphere::after {
+      content: "✦"; position: absolute; color: rgba(21,101,192,.13);
+      font-size: 42px; font-weight: 900;
+    }
+    .cleaning-atmosphere::before { top: 17%; left: 5%; }
+    .cleaning-atmosphere::after { right: 7%; bottom: 16%; font-size: 58px; }
+    .payment-note { display:block; margin-top:8px; color:#526783; font-size:.82rem; line-height:1.5; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button, .btn { cursor: pointer; }
+    .container { width: min(1120px, calc(100% - 40px)); margin: auto; }
+    .topbar { background: var(--white); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: 1.35rem; font-weight: 850; color: var(--blue); letter-spacing: -.5px; }
+    .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--blue-light); color: var(--blue); font-size: 1.1rem; }
+    .nav-links { display: flex; align-items: center; gap: 26px; color: #40516b; font-size: .94rem; font-weight: 600; }
+    .nav-links a:hover { color: var(--blue); }
+    .btn { border: 0; display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 12px 19px; border-radius: 12px; font-weight: 750; transition: .2s; }
+    .btn-primary { background: var(--blue); color: white; box-shadow: 0 7px 18px rgba(21,101,192,.2); }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn-outline { color: var(--blue); border: 1px solid #bfd7f5; background: white; }
+    .btn-outline:hover { background: var(--blue-light); }
+    .btn-green { color: white; background: var(--green); box-shadow: 0 7px 18px rgba(22,163,74,.25); }
+    .btn-green:hover { filter: brightness(0.95); transform: translateY(-1px); }
+    .hero { padding: 72px 0 62px; background: radial-gradient(circle at 80% 20%, #dcecff 0, transparent 32%), linear-gradient(120deg,#f7fbff,#edf5ff); overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 46px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 99px; color: var(--blue); background: #e1efff; font-size: .82rem; font-weight: 800; }
+    h1 { font-size: clamp(2.35rem, 5vw, 4.15rem); line-height: 1.08; letter-spacing: -2px; margin: 18px 0; }
+    h1 span { color: var(--blue); }
+    .hero p { max-width: 540px; color: var(--muted); font-size: 1.08rem; margin: 0 0 25px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-art { min-height: 360px; border-radius: 30px; background: linear-gradient(145deg,#cfe5ff,#8bbcf3); position: relative; display: grid; place-items: center; overflow: hidden; box-shadow: var(--shadow); }
+    .hero-art::before, .hero-art::after { content: ""; position: absolute; border-radius: 50%; background: rgba(255,255,255,.28); }
+    .hero-art::before { width: 280px; height: 280px; top: -85px; right: -55px; }
+    .hero-art::after { width: 190px; height: 190px; bottom: -80px; left: -45px; }
+    .clean-illustration { position: relative; z-index: 1; font-size: clamp(7rem, 16vw, 11rem); filter: drop-shadow(0 18px 15px rgba(13,71,161,.18)); }
+    .float-note { position: absolute; z-index: 2; background: white; padding: 13px 16px; border-radius: 14px; box-shadow: var(--shadow); font-size: .88rem; font-weight: 800; }
+    .note-one { left: 18px; bottom: 30px; }
+    .note-two { right: 18px; top: 30px; }
+    section { padding: 72px 0; }
+    .section-head { text-align: center; max-width: 650px; margin: 0 auto 34px; }
+    .section-head h2 { margin: 0 0 9px; font-size: clamp(1.8rem,3vw,2.45rem); letter-spacing: -.8px; }
+    .section-head p { margin: 0; color: var(--muted); }
+    .cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .service-card { background: white; border: 1px solid var(--line); border-radius: var(--radius); padding: 23px; box-shadow: 0 5px 20px rgba(20,60,110,.035); display: flex; flex-direction: column; transition: .2s; }
+    .service-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .service-icon { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 16px; background: var(--blue-light); font-size: 1.8rem; margin-bottom: 15px; }
+    .service-card h3 { margin: 0 0 7px; font-size: 1.15rem; }
+    .service-card p { margin: 0 0 18px; color: var(--muted); font-size: .93rem; flex: 1; }
+    .price { color: var(--blue); font-size: 1.18rem; font-weight: 850; margin-bottom: 15px; }
+    .small { font-size: .82rem; color: var(--muted); font-weight: 500; }
+    .booking-wrap { background: white; border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); overflow: hidden; display: grid; grid-template-columns: 1fr .78fr; }
+    .booking-form { padding: 30px; }
+    .booking-form h2 { margin: 0 0 6px; font-size: 1.8rem; }
+    .booking-form > p { color: var(--muted); margin: 0 0 24px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 15px; }
+    .field.full { grid-column: 1 / -1; }
+    label { font-size: .9rem; font-weight: 750; }
+    input, select, textarea { width: 100%; border: 1px solid #d8e3f0; border-radius: 11px; padding: 12px 13px; color: var(--ink); background: white; outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: #65a5ef; box-shadow: 0 0 0 3px #e5f1ff; }
+    textarea { min-height: 88px; resize: vertical; }
+    .payment-box { background: #f8fbff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-bottom: 18px; }
+    .payment-details { margin-top: 10px; padding: 10px 12px; background: white; border: 1px dashed #bfd7f5; border-radius: 10px; font-size: .88rem; color: var(--ink); }
+    .estimate-panel { background: linear-gradient(160deg,#145db3,#0d47a1); color: white; padding: 32px; display: flex; flex-direction: column; }
+    .estimate-panel h3 { margin: 0 0 7px; font-size: 1.35rem; }
+    .estimate-panel p { color: #d7e8ff; margin: 0 0 24px; font-size: .92rem; }
+    .estimate-line { display: flex; justify-content: space-between; gap: 15px; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.18); font-size: .92rem; }
+    .estimate-total { margin-top: auto; padding-top: 25px; }
+    .estimate-total span { display: block; color: #d7e8ff; font-size: .9rem; }
+    .estimate-total strong { font-size: 2.1rem; letter-spacing: -.8px; }
+    .estimate-note { font-size: .78rem !important; margin: 14px 0 0 !important; }
+    .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .step { text-align: center; padding: 25px 18px; background: white; border: 1px solid var(--line); border-radius: var(--radius); }
+    .step-number { width: 48px; height: 48px; margin: auto auto 14px; display: grid; place-items: center; background: var(--blue-light); color: var(--blue); border-radius: 50%; font-weight: 900; }
+    .step h3 { margin: 0 0 6px; }
+    .step p { color: var(--muted); margin: 0; font-size: .92rem; }
+    .cta { background: var(--blue); color: white; border-radius: 24px; padding: 38px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .cta h2 { margin: 0 0 7px; font-size: 1.8rem; }
+    .cta p { color: #dbeafe; margin: 0; }
+    .cta .btn { background: white; color: var(--blue); white-space: nowrap; }
+    footer { padding: 30px 0; background: #0d2850; color: #d7e5f8; }
+    .footer-row { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
+    footer .brand { color: white; }
+    footer p { margin: 5px 0 0; color: #b8cbe3; font-size: .86rem; }
+    .chat-float { position: fixed; right: 22px; bottom: 22px; z-index: 30; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: #16a34a; color: white; font-size: 1.65rem; box-shadow: 0 8px 24px rgba(22,163,74,.35); }
+    .toast { position: fixed; left: 50%; bottom: 22px; transform: translate(-50%,20px); background: #172b4d; color: white; padding: 12px 18px; border-radius: 12px; opacity: 0; pointer-events: none; transition: .25s; z-index: 50; font-size: .9rem; }
+    .toast.show { opacity: 1; transform: translate(-50%,0); }
+    @media (max-width: 820px) {
+      .nav-links { display: none; }
+      .hero-grid, .booking-wrap { grid-template-columns: 1fr; }
+      .hero { padding-top: 48px; }
+      .hero-art { min-height: 280px; }
+      .cards { grid-template-columns: repeat(2,1fr); }
+      .estimate-panel { min-height: 330px; }
+    }
+    @media (max-width: 560px) {
+      .container { width: min(100% - 28px,1120px); }
+      section { padding: 55px 0; }
+      .cards, .how-grid, .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .booking-form, .estimate-panel { padding: 23px; }
+      .cta { padding: 27px 23px; flex-direction: column; align-items: flex-start; }
+      .nav { min-height: 64px; }
+      .nav > .btn { padding: 10px 12px; font-size: .85rem; }
+      h1 { letter-spacing: -1.3px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cleaning-atmosphere" aria-hidden="true"></div>
+
+  <!-- GANTI nomor WhatsApp pada konstanta WHATSAPP_NUMBER di bagian JavaScript. -->
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#home">
+        <span class="brand-mark">✦</span>
+        <span>Peugleh Shiner</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#layanan">Layanan</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+        <a href="#pesan">Pesan & Pembayaran</a>
+      </nav>
+      <a class="btn btn-primary" href="#pesan">Pesan Sekarang</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">✦ Bersih Kilau, Tanpa Ribet</span>
+          <h1>Rumah & Ruang Kerja <span>Bersih Sempurna</span></h1>
+          <p>Layanan kebersihan profesional dengan peralatan lengkap, tim terpercaya, serta opsi pembayaran fleksibel (Transfer, QRIS, maupun Tunai di tempat).</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#pesan">Jadwalkan Pembersihan</a>
+            <a class="btn btn-outline" href="#layanan">Lihat Paket & Harga</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="clean-illustration" aria-hidden="true">✨🧽</div>
+          <div class="float-note note-one">✅ Peralatan & Cairan Lengkap</div>
+          <div class="float-note note-two">⚡ Respon Cepat & Bergaransi</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Layanan Section -->
+    <section id="layanan">
+      <div class="container">
+        <div class="section-head">
+          <h2>Pilih Layanan Kebersihan</h2>
+          <p>Sesuaikan paket kebersihan dengan kebutuhan hunian atau tempat usaha Anda.</p>
+        </div>
+        <div class="cards">
+          <article class="service-card">
+            <div class="service-icon">🏠</div>
+            <h3>Daily Home Cleaning</h3>
+            <p>Menyapu, mengepel, mengelap debu furnitur, merapikan kamar tidur, serta membersihkan area dapur ringan.</p>
+            <div class="price">Rp 150.000 <span class="small">/ sesi (2 jam)</span></div>
+            <button type="button" class="btn btn-outline" onclick="pilihLayanan('Daily Home Cleaning')">Pilih Layanan</button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">✨</div>
+            <h3>Deep Cleaning</h3>
+            <p>Pembersihan menyeluruh hingga sudut tersembunyi, kerak kamar mandi, kaca jendela, dan area sulit dijangkau.</p>
+            <div class="price">Rp 350.000 <span class="small">/ sesi (4 jam)</span></div>
+            <button type="button" class="btn btn-outline" onclick="pilihLayanan('Deep Cleaning')">Pilih Layanan</button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">🛋️</div>
+            <h3>Cuci Sofa & Kasur</h3>
+            <p>Vakum tungau (hydro-vacuum) dan pencucian noda membandel pada sofa, springbed, maupun karpet.</p>
+            <div class="price">Rp 250.000 <span class="small">/ paket</span></div>
+            <button type="button" class="btn btn-outline" onclick="pilihLayanan('Cuci Sofa & Kasur')">Pilih Layanan</button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">🏢</div>
+            <h3>Kantor & Ruko</h3>
+            <p>Perawatan kebersihan ruang kerja, ruang rapat, kaca depan, dan toilet kantor agar tetap nyaman.</p>
+            <div class="price">Rp 300.000 <span class="small">/ sesi</span></div>
+            <button type="button" class="btn btn-outline" onclick="pilihLayanan('Kantor & Ruko')">Pilih Layanan</button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">📦</div>
+            <h3>Pindah Rumah / Renovasi</h3>
+            <p>Pembersihan sisa debu bangunan, cat ringan, dan sanitasi total sebelum rumah baru ditempati.</p>
+            <div class="price">Rp 500.000 <span class="small">/ paket</span></div>
+            <button type="button" class="btn btn-outline" onclick="pilihLayanan('Pindah Rumah / Renovasi')">Pilih Layanan</button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">❄️</div>
+            <h3>Cuci AC & Sanitasi</h3>
+            <p>Pembersihan unit indoor/outdoor AC agar udara kembali sejuk, bersih, dan hemat listrik.</p>
+            <div class="price">Rp 85.000 <span class="small">/ unit</span></div>
+            <button type="button" class="btn btn-outline" onclick="pilihLayanan('Cuci AC & Sanitasi')">Pilih Layanan</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cara Kerja Section -->
+    <section id="cara-kerja" style="padding-top: 20px;">
+      <div class="container">
+        <div class="section-head">
+          <h2>Cara Pemesanan Mudah</h2>
+          <p>Hanya 3 langkah praktis untuk membuat ruangan Anda kembali bersih berkilau.</p>
+        </div>
+        <div class="how-grid">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Pilih Layanan & Jadwal</h3>
+            <p>Tentukan jenis pembersihan, jumlah sesi/unit, serta tanggal kunjungan yang Anda inginkan.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Pilih Metode Pembayaran</h3>
+            <p>Bayar praktis via Transfer Bank, QRIS, E-Wallet, atau bayar tunai setelah pekerjaan selesai.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Tim Datang & Bersihkan</h3>
+            <p>Petugas Peugleh Shiner datang tepat waktu dengan perlengkapan lengkap siap kerja.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking & Pembayaran Section -->
+    <section id="pesan">
+      <div class="container">
+        <div class="booking-wrap">
+          <form class="booking-form" id="bookingForm">
+            <h2>Formulir Pemesanan & Pembayaran</h2>
+            <p>Lengkapi data di bawah ini untuk menghitung estimasi biaya dan konfirmasi via WhatsApp.</p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" required placeholder="Contoh:Cut Putri">
+              </div>
+              <div class="field">
+                <label for="telepon">Nomor WhatsApp</label>
+                <input type="tel" id="telepon" required placeholder="Contoh: 081234567890">
+              </div>
+
+              <div class="field">
+                <label for="layananSelect">Jenis Layanan</label>
+                <select id="layananSelect" onchange="hitungEstimasi()">
+                  <option value="Daily Home Cleaning" data-harga="150000">Daily Home Cleaning (Rp 150.000)</option>
+                  <option value="Deep Cleaning" data-harga="350000">Deep Cleaning (Rp 350.000)</option>
+                  <option value="Cuci Sofa & Kasur" data-harga="250000">Cuci Sofa & Kasur (Rp 250.000)</option>
+                  <option value="Kantor & Ruko" data-harga="300000">Kantor & Ruko (Rp 300.000)</option>
+                  <option value="Pindah Rumah / Renovasi" data-harga="500000">Pindah Rumah / Renovasi (Rp 500.000)</option>
+                  <option value="Cuci AC & Sanitasi" data-harga="85000">Cuci AC & Sanitasi (Rp 85.000)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="jumlah">Jumlah Sesi / Unit</label>
+                <input type="number" id="jumlah" min="1" max="20" value="1" onchange="hitungEstimasi()" oninput="hitungEstimasi()">
+              </div>
+
+              <div class="field">
+                <label for="tanggal">Tanggal Kunjungan</label>
+                <input type="date" id="tanggal" required>
+              </div>
+
+              <div class="field">
+                <label for="jam">Jam Kunjungan</label>
+                <select id="jam">
+                  <option value="08:00 WIB">08:00 WIB (Pagi)</option>
+                  <option value="10:00 WIB">10:00 WIB (Pagi)</option>
+                  <option value="13:00 WIB">13:00 WIB (Siang)</option>
+                  <option value="15:30 WIB">15:30 WIB (Sore)</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="metodeBayar">Metode Pembayaran</label>
+                <select id="metodeBayar" onchange="updateInfoPembayaran()">
+                  <option value="Transfer Bank (BSI / BCA)">Transfer Bank (BSI / BCA)</option>
+                  <option value="QRIS (Semua E-Wallet & M-Banking)">QRIS (Semua E-Wallet & M-Banking)</option>
+                  <option value="Bayar Tunai di Tempat (COD)">Bayar Tunai di Tempat (Setelah Selesai)</option>
+                </select>
+                <div class="payment-details" id="infoPembayaran">
+                  <strong>Rekening Tujuan:</strong> BSI 7123456789 a.n. Peugleh Shiner (Kirim bukti transfer di WhatsApp setelah klik pesan).
+                </div>
+                <span class="payment-note">*Pembayaran DP atau lunas dapat dikonfirmasi langsung bersama admin saat mengirim pesanan.</span>
+              </div>
+
+              <div class="field full">
+                <label for="alamat">Alamat Lengkap & Patokan</label>
+                <textarea id="alamat" required placeholder="Masukkan alamat lengkap, kelurahan, kecamatan, dan catatan khusus area yang perlu dibersihkan..."></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-green" style="width: 100%; padding: 14px;">
+              💬 Konfirmasi & Bayar via WhatsApp
+            </button>
+          </form>
+
+          <!-- Ringkasan Estimasi -->
+          <aside class="estimate-panel">
+            <h3>Ringkasan Pesanan</h3>
+            <p>Rincian biaya otomatis diperbarui sesuai layanan yang dipilih.</p>
+
+            <div class="estimate-line">
+              <span>Layanan</span>
+              <strong id="sumLayanan">Daily Home Cleaning</strong>
+            </div>
+            <div class="estimate-line">
+              <span>Harga Satuan</span>
+              <strong id="sumHarga">Rp 150.000</strong>
+            </div>
+            <div class="estimate-line">
+              <span>Jumlah</span>
+              <strong id="sumJumlah">1x</strong>
+            </div>
+            <div class="estimate-line">
+              <span>Pembayaran</span>
+              <strong id="sumBayar" style="text-align:right;">Transfer Bank</strong>
+            </div>
+
+            <div class="estimate-total">
+              <span>Total Estimasi Biaya</span>
+              <strong id="sumTotal">Rp 150.000</strong>
+              <p class="estimate-note">Harga sudah termasuk peralatan standar dan cairan pembersih ramah lingkungan.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section style="padding-top: 10px;">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h2>Butuh Konsultasi atau Paket Berlangganan?</h2>
+            <p>Dapatkan potongan khusus untuk pembersihan rutin mingguan atau bulanan.</p>
+          </div>
+          <a class="btn" href="javascript:void(0)" onclick="chatAdmin()">Tanya Admin Sekarang</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div>
+        <div class="brand">
+          <span class="brand-mark">✦</span>
+          <span>Peugleh Shiner</span>
+        </div>
+        <p>Jasa Kebersihan Praktis, Cepat, dan Terpercaya.</p>
+      </div>
+      <p>© 2026 Peugleh Shiner. Semua hak dilindungi.</p>
+    </div>
+  </footer>
+
+  <!-- Tombol WhatsApp Mengambang -->
+  <a href="javascript:void(0)" onclick="chatAdmin()" class="chat-float" title="Chat WhatsApp Admin" aria-label="Chat WhatsApp">💬</a>
+
+  <!-- Notifikasi Toast -->
+  <div class="toast" id="toast">Layanan dipilih!</div>
+
+  <script>
+    // GANTI dengan nomor WhatsApp admin (format kode negara tanpa tanda +, contoh: 6281234567890)
+    const WHATSAPP_NUMBER = "6281234567890";
+
+    function formatRupiah(angka) {
+      return "Rp " + angka.toLocaleString("id-ID");
+    }
+
+    function showToast(pesan) {
+      const toast = document.getElementById("toast");
+      toast.textContent = pesan;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function pilihLayanan(namaLayanan) {
+      const select = document.getElementById("layananSelect");
+      select.value = namaLayanan;
+      hitungEstimasi();
+      document.getElementById("pesan").scrollIntoView({ behavior: "smooth" });
+      showToast("Paket dipilih: " + namaLayanan);
+    }
+
+    function updateInfoPembayaran() {
+      const metode = document.getElementById("metodeBayar").value;
+      const infoBox = document.getElementById("infoPembayaran");
+      const sumBayar = document.getElementById("sumBayar");
+
+      if (metode.includes("Transfer")) {
+        infoBox.innerHTML = "<strong>Rekening Tujuan:</strong> BSI 7123456789 / BCA 1234567890 a.n. Peugleh Shiner.";
+        sumBayar.textContent = "Transfer Bank";
+      } else if (metode.includes("QRIS")) {
+        infoBox.innerHTML = "<strong>Pembayaran QRIS:</strong> Kode QRIS akan dikirimkan otomatis oleh admin di WhatsApp untuk discan.";
+        sumBayar.textContent = "QRIS";
+      } else {
+        infoBox.innerHTML = "<strong>Tunai di Tempat (COD):</strong> Pembayaran dilakukan langsung kepada petugas setelah pekerjaan selesai.";
+        sumBayar.textContent = "Tunai (COD)";
+      }
+    }
+
+    function hitungEstimasi() {
+      const select = document.getElementById("layananSelect");
+      const selectedOption = select.options[select.selectedIndex];
+      const harga = parseInt(selectedOption.getAttribute("data-harga"), 10) || 0;
+      const jumlah = Math.max(1, parseInt(document.getElementById("jumlah").value, 10) || 1);
+      const total = harga * jumlah;
+
+      document.getElementById("sumLayanan").textContent = select.value;
+      document.getElementById("sumHarga").textContent = formatRupiah(harga);
+      document.getElementById("sumJumlah").textContent = jumlah + "x";
+      document.getElementById("sumTotal").textContent = formatRupiah(total);
+    }
+
+    function chatAdmin() {
+      const teks = encodeURIComponent("Halo Peugleh Shiner, saya ingin bertanya mengenai layanan kebersihan.");
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${teks}`, "_blank");
+    }
+
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nama = document.getElementById("nama").value.trim();
+      const telepon = document.getElementById("telepon").value.trim();
+      const layanan = document.getElementById("layananSelect").value;
+      const jumlah = document.getElementById("jumlah").value;
+      const tanggal = document.getElementById("tanggal").value;
+      const jam = document.getElementById("jam").value;
+      const metodeBayar = document.getElementById("metodeBayar").value;
+      const alamat = document.getElementById("alamat").value.trim();
+      const total = document.getElementById("sumTotal").textContent;
+
+      const pesanWA =
+`Halo *Peugleh Shiner*, saya ingin memesan layanan kebersihan:
+
+*Nama:* ${nama}
+*No. WA:* ${telepon}
+*Layanan:* ${layanan} (${jumlah}x)
+*Jadwal:* ${tanggal} pukul ${jam}
+*Alamat:* ${alamat}
+*Metode Pembayaran:* ${metodeBayar}
+*Estimasi Total:* ${total}
+
+Mohon konfirmasi ketersediaan jadwalnya. Terima kasih!`;
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(pesanWA)}`;
+      window.open(url, "_blank");
+    });
+
+    // Set tanggal minimum hari ini
+    const inputTanggal = document.getElementById("tanggal");
+    inputTanggal.min = new Date().toISOString().split("T")[0];
+    hitungEstimasi();
+  </script>
+</body>
+</html>
